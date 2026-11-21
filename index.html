@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COT — Portal & Edital Oficial</title>
+  <style>
+    :root {
+      --bg: #07090d;
+      --surface: #0d1118;
+      --surface-2: #141a24;
+      --border: #232c3d;
+      --text: #f1f5f9;
+      --muted: #8f9db3;
+      --accent: #2563eb;
+      --accent-hover: #3b82f6;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+    body {
+      background: radial-gradient(circle at top, #121b2b 0%, var(--bg) 62%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px 16px;
+      line-height: 1.55;
+    }
+    .container { max-width: 880px; margin: 0 auto; }
+
+    .header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #93c5fd;
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      padding: 5px 11px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    h1 { font-size: 22px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 640px) { .tabs { grid-template-columns: 1fr; } }
+
+    .tab-btn {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: 0.18s;
+      text-align: center;
+    }
+    .tab-btn.active { background: var(--surface-2); color: var(--text); border-color: var(--accent-hover); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    .edital-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edital-section {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .edital-section h3 { font-size: 15px; color: #f8fafc; margin-bottom: 8px; }
+    .edital-section ul { padding-left: 18px; color: #cbd5e1; font-size: 14px; }
+    .edital-section li { margin-bottom: 5px; }
+
+    .accept-box {
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.28);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .accept-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+    .accept-box label { margin: 0; font-size: 13.5px; color: var(--text); cursor: pointer; }
+
+    .slide-top { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .slide-title { font-size: 19px; margin-bottom: 12px; color: #f8fafc; }
+    .slide-body {
+      color: #cbd5e1;
+      font-size: 14.5px;
+      white-space: pre-line;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      min-height: 155px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 17px;
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+    .btn-help {
+      background: rgba(37, 99, 235, 0.14);
+      color: #93c5fd;
+      border: 1px solid rgba(96, 165, 250, 0.32);
+      padding: 6px 11px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .form-group { margin-bottom: 15px; }
+    .label-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 7px; flex-wrap: wrap; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 7px; }
+    .label-row label { margin-bottom: 0; }
+
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="text"]:focus, textarea:focus { border-color: var(--accent-hover); }
+    textarea { min-height: 82px; resize: vertical; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .status-msg { margin-top: 15px; padding: 13px 15px; border-radius: 10px; font-size: 13.5px; display: none; }
+    .status-msg.ok { display: block; background: rgba(22, 163, 74, 0.14); border: 1px solid rgba(22, 163, 74, 0.45); color: #86efac; }
+    .status-msg.err { display: block; background: rgba(220, 38, 38, 0.14); border: 1px solid rgba(220, 38, 38, 0.45); color: #fca5a5; }
+    .hidden { display: none !important; }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 15, 0.82);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; max-width: 540px; width: 100%; padding: 22px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .tutorial-block { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; margin-bottom: 10px; }
+    .tutorial-block h4 { color: #93c5fd; font-size: 13.5px; margin-bottom: 6px; }
+    .tutorial-block ol { padding-left: 18px; color: #cbd5e1; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="badge">Comando de Operações Táticas • COT</div>
+        <h1>Edital & Recrutamento Operacional</h1>
+        <p class="subtitle">Leia o edital oficial, revise os slides e envie sua ficha de admissão.</p>
+      </div>
+      <button type="button" class="btn-help open-id-tutorial">❓ Como pegar o meu ID?</button>
+    </div>
+
+    <div class="tabs">
+      <button type="button" id="tabEdital" class="tab-btn active">1. Edital Oficial</button>
+      <button type="button" id="tabSlides" class="tab-btn">2. Slides Operacionais</button>
+      <button type="button" id="tabForm" class="tab-btn">3. Questionário</button>
+    </div>
+
+    <section id="sectionEdital" class="card">
+      <div class="edital-meta">
+        <span><strong>Documento:</strong> <span id="editalVersionLabel">Edital COT v1.0</span></span>
+        <span><strong>Unidade:</strong> Comando de Operações Táticas</span>
+      </div>
+
+      <div class="edital-section">
+        <h3>Art. 1º — Finalidade e Postura</h3>
+        <ul>
+          <li>O recrutamento da COT destina-se a selecionar operadores disciplinados, objetivos e comprometidos com as regras de conduta e roleplay.</li>
+          <li>O desrespeito à cadeia de comando, condutas tóxicas ou respostas copiadas sem domínio técnico implicam reprovação imediata.</li>
+        </ul>
+      </div>
+
+      <div class="edital-section">
+        <h3>Art. 2º — Identificação e Padrão Operacional</h3>
+        <ul>
+          <li>Ao ser aprovado, o operador receberá os cargos oficiais da unidade e terá o cargo de ingresso removido automaticamente.</li>
+          <li>O padrão de identificação aprovado segue o formato <code>「COT」NOME 「ID」</code>, devendo o candidato informar seu ID do Discord e dados em jogo corretamente.</li>
+        </ul>
+      </div>
+
+      <div class="edital-section">
+        <h3>Art. 3º — Avaliação e Decisão</h3>
+        <ul>
+          <li>As fichas enviadas pelo portal seguem diretamente para o canal de avaliação da liderança/recrutamento.</li>
+          <li>Em caso de reprovação, o candidato será notificado via mensagem direta (DM) com o motivo e poderá tentar novamente após revisar o edital e os slides.</li>
+        </ul>
+      </div>
+
+      <div class="accept-box">
+        <input type="checkbox" id="acceptEditalCheck" />
+        <label for="acceptEditalCheck">
+          Declaro que li e concordo com os termos do <strong>Edital Oficial da COT</strong> para prosseguir ao questionário de recrutamento.
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="editalToSlidesBtn" class="btn-secondary">Ver Slides Operacionais ▶</button>
+        <button type="button" id="editalToFormBtn" class="btn-primary">Prosseguir para o Questionário ▶</button>
+      </div>
+      <div id="editalStatus" class="status-msg"></div>
+    </section>
+
+    <section id="sectionSlides" class="card hidden">
+      <div class="slide-top">
+        <span id="slideCounter">Slide 1 de 5</span>
+        <span>Doutrina, Conduta & Códigos</span>
+      </div>
+      <h2 id="slideTitle" class="slide-title"></h2>
+      <div id="slideBody" class="slide-body"></div>
+
+      <div class="actions">
+        <button type="button" id="prevSlide" class="btn-secondary">◀ Anterior</button>
+        <button type="button" id="nextSlide" class="btn-primary">Próximo ▶</button>
+      </div>
+    </section>
+
+    <section id="sectionForm" class="card hidden">
+      <h2 class="slide-title">Questionário de Recrutamento — COT</h2>
+      <p class="subtitle" style="margin-bottom: 18px;">
+        Responda às perguntas abaixo. Ao enviar, sua ficha será encaminhada para avaliação.
+      </p>
+
+      <form id="recruitmentForm">
+        <div class="grid-2">
+          <div class="form-group">
+            <div class="label-row">
+              <label for="discordId">Seu ID do Discord *</label>
+              <button type="button" class="btn-help open-id-tutorial">Como pegar o meu ID?</button>
+            </div>
+            <input type="text" id="discordId" placeholder="Ex: 1520773848805408769" required />
+          </div>
+          <div class="form-group">
+            <label for="ingameName">Seu Nome em Jogo (para o nick COT) *</label>
+            <input type="text" id="ingameName" placeholder="Ex: SILVA" maxlength="18" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="q1Id">1. Qual seu ID? *</label>
+          <input type="text" id="q1Id" placeholder="Ex: 1042" maxlength="10" required />
+        </div>
+
+        <div class="form-group">
+          <label for="q2Nick">2. Qual é o nickname correto de um policial durante uma patrulha? *</label>
+          <input type="text" id="q2Nick" placeholder="Ex: COT|Nome, COT|PATENTE|NOME..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="q3Viatura">3. Quantos integrantes são necessários, no mínimo, em uma viatura? *</label>
+          <input type="text" id="q3Viatura" placeholder="Ex: 2" required />
+        </div>
+
+        <div class="form-group">
+          <label for="q4Ptr">4. O que deve ser feito ao iniciar e finalizar uma PTR? *</label>
+          <textarea id="q4Ptr" placeholder="Explique o procedimento ao iniciar e finalizar..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q5Superior">5. Como você deve agir ao receber uma ordem de um superior? *</label>
+          <textarea id="q5Superior" placeholder="Descreva sua postura..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q6Vdm">6. O que é VDM e por que essa prática é proibida? *</label>
+          <textarea id="q6Vdm" placeholder="Defina VDM e explique por que é proibido..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q7Rdm">7. O que caracteriza um RDM? *</label>
+          <textarea id="q7Rdm" placeholder="Explique o que caracteriza RDM..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q8AmorVida">8. O que significa Anti-Amor à Vida? Cite um exemplo. *</label>
+          <textarea id="q8AmorVida" placeholder="Defina e cite um exemplo..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q9MgPg">9. Qual é a diferença entre Metagaming (MG) e Powergaming (PG)? *</label>
+          <textarea id="q9MgPg" placeholder="Explique a diferença entre MG e PG..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q10Qrr">10. O que significa o código QRR e em qual situação deve ser utilizado? *</label>
+          <textarea id="q10Qrr" placeholder="Explique o código QRR e quando usar..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q11Qth">11. O que significa QTH e quando deve ser informado pelo rádio? *</label>
+          <textarea id="q11Qth" placeholder="Explique o código QTH e quando informar..." required></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="backToEdital" class="btn-secondary">◀ Voltar ao Edital</button>
+          <button type="submit" id="submitBtn" class="btn-primary">Enviar Ficha para Avaliação</button>
+        </div>
+
+        <div id="statusBox" class="status-msg"></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="idTutorialModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🪪 Como pegar o seu ID do Discord?</h3>
+        <button type="button" id="closeIdTutorial" class="btn-secondary">✕ Fechar</button>
+      </div>
+
+      <div class="tutorial-block">
+        <h4>💻 No Computador (PC / Navegador)</h4>
+        <ol>
+          <li>Abra as <strong>Configurações de Usuário</strong> (ícone de engrenagem ⚙️).</li>
+          <li>Vá em <strong>Avançado</strong> e ative a opção <strong>Modo Desenvolvedor</strong>.</li>
+          <li>Volte ao servidor, clique com o <strong>botão direito</strong> no seu nome/foto e clique em <strong>Copiar ID de usuário</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-block">
+        <h4>📱 No Celular (Android / iPhone)</h4>
+        <ol>
+          <li>Toque na sua <strong>foto de perfil</strong> no canto inferior direito e abra as <strong>Configurações</strong> (⚙️).</li>
+          <li>Entre em <strong>Avançado</strong> e ative o <strong>Modo Desenvolvedor</strong>.</li>
+          <li>Abra o seu perfil no servidor, toque nos <strong>três pontinhos (•••)</strong> no canto superior direito e escolha <strong>Copiar ID de usuário</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="actions" style="justify-content: flex-end; margin-top: 14px;">
+        <button type="button" id="okIdTutorial" class="btn-primary">Entendi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EDITAL_VERSION = "Edital COT v1.0";
+    const WEBHOOK_URL =
+      "https://discord.com/api/webhooks/1568043482218766476/pLlyLWymWURwI7_1jro1fOeB-fSfwiaoXibEgj14gtlTnrbqSCFhkXDnqlbUK-woBvew";
+
+    const SLIDES = [
+      {
+        title: "01 • Identificação e Guarnição",
+        body:
+          "• ID: Cada policial deve informar corretamente seu próprio ID.\n" +
+          "• Nickname em Patrulha: Manter o padrão correto durante patrulha (ex.: COT|Nome, COT|PATENTE|NOME ou padrão oficial da unidade).\n" +
+          "• Viatura: Mínimo obrigatório de 2 integrantes por viatura."
+      },
+      {
+        title: "02 • PTR e Cadeia de Comando",
+        body:
+          "• Início e Fim de PTR: Avisar no Twitter quando inicia e quando finaliza uma PTR.\n" +
+          "• Ordens de Superior: Ao receber uma ordem de um superior, você deve respeitar e acatar."
+      },
+      {
+        title: "03 • VDM e RDM",
+        body:
+          "• VDM: Atropelar sem motivo, prejudicando a gameplay. Prática proibida.\n" +
+          "• RDM: Caracteriza-se por matar sem motivo."
+      },
+      {
+        title: "04 • Anti-Amor à Vida, MG e PG",
+        body:
+          "• Anti-Amor à Vida: Não ter amor pela própria vida — exemplo: reagir a um sequestro ou assalto.\n" +
+          "• Metagaming (MG): Aproveitar-se de informações tiradas de fora do jogo.\n" +
+          "• Powergaming (PG): Realizar ações irreais."
+      },
+      {
+        title: "05 • Códigos de Rádio: QRR e QTH",
+        body:
+          "• QRR: Pedido de ajuda — utilizado quando você precisa de socorro.\n" +
+          "• QTH: Localização — usado para informar em qual local você está."
+      }
+    ];
+
+    let currentSlide = 0;
+
+    const tabEdital = document.getElementById("tabEdital");
+    const tabSlides = document.getElementById("tabSlides");
+    const tabForm = document.getElementById("tabForm");
+
+    const sectionEdital = document.getElementById("sectionEdital");
+    const sectionSlides = document.getElementById("sectionSlides");
+    const sectionForm = document.getElementById("sectionForm");
+
+    const acceptEditalCheck = document.getElementById("acceptEditalCheck");
+    const editalStatus = document.getElementById("editalStatus");
+    const editalToSlidesBtn = document.getElementById("editalToSlidesBtn");
+    const editalToFormBtn = document.getElementById("editalToFormBtn");
+    const backToEditalBtn = document.getElementById("backToEdital");
+
+    const slideCounter = document.getElementById("slideCounter");
+    const slideTitle = document.getElementById("slideTitle");
+    const slideBody = document.getElementById("slideBody");
+    const prevSlideBtn = document.getElementById("prevSlide");
+    const nextSlideBtn = document.getElementById("nextSlide");
+
+    const form = document.getElementById("recruitmentForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusBox = document.getElementById("statusBox");
+
+    const idTutorialModal = document.getElementById("idTutorialModal");
+    const closeIdTutorialBtn = document.getElementById("closeIdTutorial");
+    const okIdTutorialBtn = document.getElementById("okIdTutorial");
+
+    document.getElementById("editalVersionLabel").textContent = EDITAL_VERSION;
+
+    document.querySelectorAll(".open-id-tutorial").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        idTutorialModal.classList.remove("hidden");
+      });
+    });
+
+    function closeTutorialModal() {
+      idTutorialModal.classList.add("hidden");
+    }
+
+    closeIdTutorialBtn.addEventListener("click", closeTutorialModal);
+    okIdTutorialBtn.addEventListener("click", closeTutorialModal);
+    idTutorialModal.addEventListener("click", (e) => {
+      if (e.target === idTutorialModal) closeTutorialModal();
+    });
+
+    function setBoxMessage(el, type, message) {
+      el.className = `status-msg ${type}`;
+      el.textContent = message;
+    }
+
+    function showSection(sectionName) {
+      if (sectionName === "form" && !acceptEditalCheck.checked) {
+        sectionEdital.classList.remove("hidden");
+        sectionSlides.classList.add("hidden");
+        sectionForm.classList.add("hidden");
+        tabEdital.classList.add("active");
+        tabSlides.classList.remove("active");
+        tabForm.classList.remove("active");
+        setBoxMessage(editalStatus, "err", "Marque a confirmação de leitura e aceite do edital antes de abrir o questionário.");
+        return;
+      }
+
+      editalStatus.className = "status-msg";
+      sectionEdital.classList.toggle("hidden", sectionName !== "edital");
+      sectionSlides.classList.toggle("hidden", sectionName !== "slides");
+      sectionForm.classList.toggle("hidden", sectionName !== "form");
+
+      tabEdital.classList.toggle("active", sectionName === "edital");
+      tabSlides.classList.toggle("active", sectionName === "slides");
+      tabForm.classList.toggle("active", sectionName === "form");
+    }
+
+    function renderSlide(index) {
+      currentSlide = Math.max(0, Math.min(SLIDES.length - 1, index));
+      const slide = SLIDES[currentSlide];
+      slideCounter.textContent = `Slide ${currentSlide + 1} de ${SLIDES.length}`;
+      slideTitle.textContent = slide.title;
+      slideBody.textContent = slide.body;
+
+      prevSlideBtn.disabled = currentSlide === 0;
+      nextSlideBtn.textContent =
+        currentSlide === SLIDES.length - 1 ? "Ir para o Questionário ▶" : "Próximo ▶";
+    }
+
+    tabEdital.addEventListener("click", () => showSection("edital"));
+    tabSlides.addEventListener("click", () => showSection("slides"));
+    tabForm.addEventListener("click", () => showSection("form"));
+
+    editalToSlidesBtn.addEventListener("click", () => showSection("slides"));
+    editalToFormBtn.addEventListener("click", () => showSection("form"));
+    backToEditalBtn.addEventListener("click", () => showSection("edital"));
+
+    prevSlideBtn.addEventListener("click", () => renderSlide(currentSlide - 1));
+    nextSlideBtn.addEventListener("click", () => {
+      if (currentSlide < SLIDES.length - 1) {
+        renderSlide(currentSlide + 1);
+      } else {
+        showSection("form");
+      }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("userId")) {
+      document.getElementById("discordId").value = params.get("userId");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!acceptEditalCheck.checked) {
+        setBoxMessage(statusBox, "err", "Você precisa confirmar a leitura do edital na primeira aba antes de enviar.");
+        return;
+      }
+
+      const discordId = document.getElementById("discordId").value.trim();
+      const ingameName = document.getElementById("ingameName").value.trim().replace(/[「」]/g, "").toUpperCase();
+      const ingameId = document.getElementById("q1Id").value.trim();
+
+      const qa = [
+        { q: "1. Qual seu ID?", a: ingameId },
+        { q: "2. Nickname correto em patrulha?", a: document.getElementById("q2Nick").value.trim() },
+        { q: "3. Mínimo de integrantes por viatura?", a: document.getElementById("q3Viatura").value.trim() },
+        { q: "4. O que fazer ao iniciar e finalizar uma PTR?", a: document.getElementById("q4Ptr").value.trim() },
+        { q: "5. Como agir ao receber ordem de superior?", a: document.getElementById("q5Superior").value.trim() },
+        { q: "6. O que é VDM e por que é proibido?", a: document.getElementById("q6Vdm").value.trim() },
+        { q: "7. O que caracteriza um RDM?", a: document.getElementById("q7Rdm").value.trim() },
+        { q: "8. Anti-Amor à Vida e exemplo?", a: document.getElementById("q8AmorVida").value.trim() },
+        { q: "9. Diferença entre Metagaming (MG) e Powergaming (PG)?", a: document.getElementById("q9MgPg").value.trim() },
+        { q: "10. O que significa QRR e quando utilizar?", a: document.getElementById("q10Qrr").value.trim() },
+        { q: "11. O que significa QTH e quando informar no rádio?", a: document.getElementById("q11Qth").value.trim() }
+      ];
+
+      if (!/^\d{15,22}$/.test(discordId)) {
+        setBoxMessage(statusBox, "err", "Informe um ID do Discord válido (clique em 'Como pegar o meu ID?' se tiver dúvida).");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando ficha...";
+      setBoxMessage(statusBox, "ok", "Enviando ficha para o canal de avaliações...");
+
+      const payload = {
+        username: "COT • Recrutamento",
+        embeds: [
+          {
+            title: "📋 NOVA FICHA DE RECRUTAMENTO — COT",
+            color: 0x172b4d,
+            description:
+              `**Edital:** \`${EDITAL_VERSION}\` (Aceito)\n` +
+              `**Candidato:** <@${discordId}> (\`${discordId}\`)\n` +
+              `**Nome:** \`${ingameName}\` | **ID:** \`${ingameId}\`\n` +
+              `**Nick Automático:** \`「COT」${ingameName} 「${ingameId}」\``,
+            fields: qa.map((item) => ({
+              name: item.q.slice(0, 250),
+              value: (item.a || "Sem resposta").slice(0, 1020),
+              inline: false
+            })),
+            footer: {
+              text: `COT • ${EDITAL_VERSION}`
+            },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        form.reset();
+        setBoxMessage(statusBox, "ok", "✅ Ficha enviada com sucesso! Aguarde a avaliação da equipe.");
+      } catch (err) {
+        setBoxMessage(statusBox, "err", `❌ Falha ao enviar ficha (${err.message}). Tente novamente.`);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar Ficha para Avaliação";
+      }
+    });
+
+    renderSlide(0);
+  </script>
+</body>
+</html>
